@@ -1,0 +1,16 @@
+{
+    "tarafas": [
+        {
+            "id": 1,
+            "titulo": "Primeira Tarefa",
+            "descricao": "Primeira tarefa a ser realizada",
+            "status": "pendente"
+        },
+        {
+            "id": 2,
+            "titulo": "Segunda Tarefa",
+            "descricao": "Segunda tarefa a ser realizada",
+            "status": "pendente"
+        }
+    ]
+}
