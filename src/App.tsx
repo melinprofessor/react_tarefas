@@ -1,12 +1,4 @@
-import {
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { Tarefa } from './entidade/Tarefa';
 import { getTarefas } from './http';
@@ -23,7 +15,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import LoadingComponent from './components/LoadingComponente'
+import LoadingComponent from './components/LoadingComponente';
+import FormComponent from './components/FormComponent';
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -62,59 +55,15 @@ function App() {
   }, []);
 
   if (lista === null) {
-    return <LoadingComponent />
+    return <LoadingComponent />;
   }
 
   return (
     <Grid>
-      <Grid>
-        <form>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={6}>
-              <TextField disabled id="codigo" label="Código" />
-            </Grid>
-            <Grid container spacing={3} item xs={12} md={12} lg={12}>
-              <Grid item xs={12} md={4} lg={4}>
-                <TextField
-                  id="titulo"
-                  label="Título"
-                  fullWidth
-                  placeholder="Digite um título..."
-                />
-              </Grid>
-              <Grid item xs={12} md={4} lg={4}>
-                <TextField
-                  id="descricao"
-                  fullWidth
-                  label="Descrição"
-                  placeholder="Digite uma descrição..."
-                />
-              </Grid>
-            </Grid>
-            <Grid container item xs={12} md={12} lg={12}>
-              <Grid item xs={4} md={4} lg={4}>
-              <FormControl fullWidth>
-                  <InputLabel id="status">Status</InputLabel>
-                  <Select
-                    labelId="status"
-                    id="status"
-                    // value={age}
-                    // onChange={handleChange}
-                  >
-                    <MenuItem value="pendente">Pendente</MenuItem>
-                    <MenuItem value="finalizado">Finalizado</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              
-              </Grid>
-            <Grid item xs={12} md={12} lg={12}>
-              <Button variant="contained" color="secondary">
-                Adicionar
-              </Button>
-            </Grid>
-          </Grid>
-        </form>
+      <Grid style={{ paddingTop: 20 }}>
+        <Paper elevation={3} style={{ padding: 20 }}>
+          <FormComponent />
+        </Paper>
       </Grid>
       <Grid style={{ paddingTop: 50 }}>
         <TableContainer component={Paper}>
