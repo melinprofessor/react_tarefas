@@ -18,7 +18,7 @@ export const getTarefas = async(): Promise<Tarefa[]> => {
 
 export const addTarefa = async(tarefa: Tarefa) => {
     try {
-        const {data} = await instance.get<Tarefa[]>('/tarafas')
+        const {data} = await instance.post<Tarefa>('/tarafas', tarefa)
         return data;
     } catch (error) {
         

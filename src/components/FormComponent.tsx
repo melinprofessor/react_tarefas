@@ -8,11 +8,24 @@ import {
   Select,
   TextField,
 } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import InputError from './InputError';
+import LoadingComponent from './LoadingComponente';
+import { addTarefa } from '../http';
+import { Tarefa } from '../entidade/Tarefa';
+
+const valorInicialTarefa: Tarefa = {
+  id: 0,
+  titulo: '',
+  descricao: '',
+  status: 'pendente',
+}
 
 const FormComponent: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  
   const schemaValidacao = yup.object().shape({
     titulo: yup.string().required('O campo título é obrigatório!'),
     descricao: yup.string().required('O campo descrição é obrigatório!'),
@@ -22,26 +35,30 @@ const FormComponent: React.FC = () => {
   const formik = useFormik({
     isInitialValid: false,
     validateOnChange: true,
-    initialValues: {
-      codigo: 0,
-      titulo: '',
-      descricao: '',
-      status: '',
-    },
+    initialValues: valorInicialTarefa,
     validationSchema: schemaValidacao,
-    onSubmit: ({ codigo, descricao, status, titulo }) => {
-      console.log(codigo, descricao, status, titulo);
+    onSubmit: (tarefa) => {
+      setIsLoading(true);
+      addTarefa(tarefa).then((result) =>{
+        setIsLoading(false);
+        console.log(result)
+        window.location.reload(); 
+      })
     },
   });
 
+  if(isLoading) {
+    return <LoadingComponent />
+  }
+  
   return (
     <form onSubmit={formik.handleSubmit}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6} lg={6}>
           <TextField
             disabled
-            id="codigo"
-            {...formik.getFieldProps('codigo')}
+            id="id"
+            {...formik.getFieldProps('id')}
             label="Código"
           />
         </Grid>
@@ -56,11 +73,7 @@ const FormComponent: React.FC = () => {
                 fullWidth
                 placeholder="Digite um título..."
               />
-              {formik.errors?.titulo ? (
-                <FormHelperText id="titulo-helper">
-                  {formik.errors.titulo}
-                </FormHelperText>
-              ) : null}
+            <InputError mensagem={formik.errors.titulo} id="titulo" />
             </FormControl>
           </Grid>
           <Grid item xs={12} md={4} lg={4}>
@@ -73,11 +86,7 @@ const FormComponent: React.FC = () => {
                 {...formik.getFieldProps('descricao')}
                 placeholder="Digite uma descrição..."
               />
-              {formik.errors?.descricao ? (
-                <FormHelperText id="descricao-helper">
-                  {formik.errors.descricao}
-                </FormHelperText>
-              ) : null}
+              <InputError mensagem={formik.errors.descricao} id="descricao" />
             </FormControl>
           </Grid>
         </Grid>
@@ -96,11 +105,7 @@ const FormComponent: React.FC = () => {
                 <MenuItem value="pendente">Pendente</MenuItem>
                 <MenuItem value="finalizado">Finalizado</MenuItem>
               </Select>
-              {formik.errors?.status ? (
-                <FormHelperText id="status-helper">
-                  {formik.errors.status}
-                </FormHelperText>
-              ) : null}
+              <InputError mensagem={formik.errors.status} id="status" />
             </FormControl>
           </Grid>
         </Grid>
