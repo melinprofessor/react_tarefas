@@ -13,6 +13,13 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 import { Tarefa } from '../entidade/Tarefa';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import Tooltip from '@material-ui/core/Tooltip';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
+import { useHistory } from 'react-router-dom';
+
+
+
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -47,7 +54,7 @@ interface Props {
 }
 const TabelaComponent:React.FC<Props> = ({lista}) => {
   const classes = useStyles();
-
+  const history = useHistory()
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -57,6 +64,7 @@ const TabelaComponent:React.FC<Props> = ({lista}) => {
             <StyledTableCell align="right">Título</StyledTableCell>
             <StyledTableCell align="right">Descrição</StyledTableCell>
             <StyledTableCell align="right">Status</StyledTableCell>
+            <StyledTableCell align="right">Ações</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -68,6 +76,14 @@ const TabelaComponent:React.FC<Props> = ({lista}) => {
               <StyledTableCell align="right">{row.titulo}</StyledTableCell>
               <StyledTableCell align="right">{row.descricao}</StyledTableCell>
               <StyledTableCell align="right">{row.status}</StyledTableCell>
+              <StyledTableCell align="right">
+              <Tooltip title='Editar Tarefa'>
+                <EditOutlinedIcon onClick={()=> history.push('/editar')} color='primary' />
+                </Tooltip>
+                <Tooltip title='Excluir Tarefa'>
+                <DeleteOutlinedIcon color='secondary' />
+                </Tooltip>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
