@@ -13,8 +13,9 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import InputError from './InputError';
 import LoadingComponent from './LoadingComponente';
-import { addTarefa } from '../http';
+import { addTarefa, atualizaTarefa } from '../http';
 import { Tarefa } from '../entidade/Tarefa';
+import { useHistory } from 'react-router-dom';
 
 const valorInicialTarefa: Tarefa = {
   id: 0,
@@ -22,8 +23,14 @@ const valorInicialTarefa: Tarefa = {
   descricao: '',
   status: 'pendente',
 }
+interface Props {
+  tarefa?: Tarefa;
+  atualiza?: boolean
+}
 
-const FormComponent: React.FC = () => {
+const FormComponent: React.FC<Props> = ({tarefa, atualiza=false}: Props) => {
+  const history = useHistory()
+
   const [isLoading, setIsLoading] = useState(false);
   
   const schemaValidacao = yup.object().shape({
@@ -35,15 +42,23 @@ const FormComponent: React.FC = () => {
   const formik = useFormik({
     isInitialValid: false,
     validateOnChange: true,
-    initialValues: valorInicialTarefa,
+    initialValues: atualiza ? tarefa! : valorInicialTarefa,
     validationSchema: schemaValidacao,
     onSubmit: (tarefa) => {
       setIsLoading(true);
-      addTarefa(tarefa).then((result) =>{
-        setIsLoading(false);
-        console.log(result)
-        window.location.reload(); 
-      })
+      if(atualiza) {
+        atualizaTarefa(tarefa).then((result) =>{
+          setIsLoading(false);
+          console.log(result)
+          history.push('/')
+        })
+      } else {
+        addTarefa(tarefa).then((result) =>{
+          setIsLoading(false);
+          console.log(result)
+          window.location.reload(); 
+        })
+      }
     },
   });
 
@@ -116,7 +131,7 @@ const FormComponent: React.FC = () => {
             variant="contained"
             color="secondary"
           >
-            Adicionar
+           {atualiza ? 'Editar': 'Adicionar'}
           </Button>
         </Grid>
       </Grid>

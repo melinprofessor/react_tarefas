@@ -6,7 +6,7 @@ interface Props {
   id: string;
   estilo?: React.CSSProperties
 }
-const InputError: React.FC<Props> = ({ mensagem, id }) => {
+const InputError: React.FC<Props> = ({ mensagem, id }:Props) => {
   if (mensagem) {
     return <FormHelperText id={`${id}-helper`}>{mensagem}</FormHelperText>;
   }

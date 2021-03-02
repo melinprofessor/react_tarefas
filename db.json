@@ -1,5 +1,5 @@
 {
-  "tarafas": [
+  "tarefas": [
     {
       "id": 1,
       "titulo": "Primeira Tarefa",
@@ -20,9 +20,9 @@
     },
     {
       "id": 4,
-      "titulo": "adasdasdsad",
+      "titulo": "Tarefa 4",
       "descricao": "adasdasdasdas",
-      "status": "finalizado"
+      "status": "pendente"
     }
   ]
 }

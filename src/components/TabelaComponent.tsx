@@ -52,7 +52,7 @@ const useStyles = makeStyles({
 interface Props {
     lista: Tarefa[]
 }
-const TabelaComponent:React.FC<Props> = ({lista}) => {
+const TabelaComponent:React.FC<Props> = ({lista}: Props) => {
   const classes = useStyles();
   const history = useHistory()
   return (
@@ -78,7 +78,7 @@ const TabelaComponent:React.FC<Props> = ({lista}) => {
               <StyledTableCell align="right">{row.status}</StyledTableCell>
               <StyledTableCell align="right">
               <Tooltip title='Editar Tarefa'>
-                <EditOutlinedIcon onClick={()=> history.push('/editar')} color='primary' />
+                <EditOutlinedIcon onClick={()=> history.push(`/editar/${row.id}`)} color='primary' />
                 </Tooltip>
                 <Tooltip title='Excluir Tarefa'>
                 <DeleteOutlinedIcon color='secondary' />
